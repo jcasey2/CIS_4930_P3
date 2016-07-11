@@ -1,3 +1,8 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{API}
+NVIDIA Corporation.
+\newblock {CUDA Runtime API}, 2015.
+\newblock [Online; accessed Summer 2016].
 
 \end{thebibliography}
