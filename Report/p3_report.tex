@@ -1,3 +1,4 @@
+%Document start and sets as a two column document
 \documentclass[twocolumn]{article}
 
 %Used packages
@@ -6,8 +7,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
 \usepackage{lipsum}
+
+%Color source code
 \usepackage{color}
-\usepackage[table]{xcolor}
+
+%For plotting data
+\usepackage{pgfplots}
 
 
 %Title page
@@ -22,9 +27,10 @@
 		John Casey (jcasey2@mail.usf.edu)}
 \date{July 1, 2016}
 
-
+%Separates the columns by {<width>}
 \setlength{\columnsep}{2cm}
 
+%Sets the color of the source code
 \renewcommand\lstlistingname{Quelltext} % Change language of section name
 
 \lstset{ % General setup for the package
@@ -42,13 +48,13 @@
 	keywordstyle=\color{blue}
 }
 
+
 \begin{document}
-	%Turn off page numbering
-	\pagenumbering{gobble}
+	%Make the title section	
 	\maketitle
 	\newpage
 	
-	%Turn page numbering on again
+	%Turn page numbering on
 	\pagenumbering{arabic}
 	\newpage
   
@@ -129,8 +135,61 @@ Num Atoms & Run Time (s) & Num Atoms & Run Time (s) \\
 1536512 & 80.98942566 & & \\
 \hline
 \end{tabular}
-
 \end{center}
+
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={Kernel Run Time},
+    xlabel={Total Number of Atoms (x1000)},
+    ylabel={Time (seconds)},
+    xmin=0, xmax=3000,
+    ymin=0, ymax=350,
+    xtick={600, 1200, 1800, 2400, 3000},
+    ytick={0,50, 100, 150, 200, 250, 300, 350},
+    legend pos=north west,
+    xmajorgrids=true,
+    ymajorgrids=true,
+    grid style=dashed,
+]
+\addplot[color=blue,mark=x,]
+    coordinates {
+    (0,0.001014944)
+    (102,0.343783468)
+	(205,1.360841751)
+	(307,3.052339792)
+	(410,5.48577261)
+	(512,8.570511818)
+	(614,12.34655285)
+	(717,16.97405243)
+	(819,22.75370407)
+	(922,29.15684891)
+	(1024,36.23521423)
+	(1126,43.85413361)
+	(1229,51.80871201)
+	(1331,60.74640274)
+	(1434,70.61425018)
+	(1536,80.98942566)
+	(1638,91.99478912)
+	(1741,104.0754242)
+	(1843,117.1748886)
+	(1946,130.3655396)
+	(2048,144.330658)
+	(2150,159.09375)
+	(2253,174.6193848)
+	(2355,191.6004333)
+	(2458,207.8615265)
+	(2560,226.5615845)
+	(2662,244.751297)
+	(2765,263.5069275)
+	(2867,282.3830566)
+	(2970,303.4553528)
+	(3072,325.8058472)
+    };
+    \legend{GPU SDH}
+ 
+\end{axis}
+\end{tikzpicture}
 
 \subsection{Experimental}
 This section has the results we obtained in the project when we assume that the global memory is not big enough to hold all of the data that we have to to offer. We have to feed in the data a little at a time (say 200MB).
