@@ -1,26 +1,156 @@
-\documentclass{article}
+\documentclass[twocolumn]{article}
 
-\title{SDH Processing of Large Scale Data\\
+%Used packages
+\usepackage[margin={2cm, 2cm}]{geometry}
+\usepackage{url}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{lipsum}
+\usepackage{color}
+\usepackage[table]{xcolor}
+
+
+%Title page
+\title{\textbf{Spatial Distance Histogram Processing
+	   of Large Scale Data} \\
 	   University of South Florida\\
 	   CIS 4930 - Summer 2016\\
-	   Programming on Massively Parallel Systems
-}
+	   Programming on Massively Parallel Systems}
+
 \author{Kevin Wagner (wagnerk1@mail.usf.edu)\\
 		Elijah Malaby (emalaby@mail.usf.edu)\\
 		John Casey (jcasey2@mail.usf.edu)}
+\date{July 1, 2016}
+
+
+\setlength{\columnsep}{2cm}
+
+\renewcommand\lstlistingname{Quelltext} % Change language of section name
+
+\lstset{ % General setup for the package
+	language=Perl,
+	basicstyle=\small\sffamily,
+	numbers=left,
+ 	numberstyle=\tiny,
+	frame=tb,
+	tabsize=4,
+	columns=fixed,
+	showstringspaces=false,
+	showtabs=false,
+	keepspaces,
+	commentstyle=\color{red},
+	keywordstyle=\color{blue}
+}
 
 \begin{document}
-  \maketitle
-  \newpage
-  \tableofcontents
-  \newpage
-
-\section{\textbf{Abstract}}
-	This can be seen as an extension of your Project 2. In particular, you will design memory management mechanisms for GPU global memory, implement CUDA kernels and evaluate the performance of such kernels. Your main task is to write the kernel to compute SDH with the assumption that input data are too large to place in global memory. The straightforward method to handle this is dividing data into small block. Then, load some of data block into GPUs memory and start the computation. However, the efficient way to load block of data in to global memory is required for this project. Because loading data to global memory is a costly operation, you need to reduce the total amount of data transmitted as much as possible. To evaluate your kernel, you may use an analytical model that quantifies the number of access to global memory or empirically run the CUDA program and plot the running time of your kernel under different data sizes.[1]
+	%Turn off page numbering
+	\pagenumbering{gobble}
+	\maketitle
+	\newpage
 	
-\section{\textbf{Introduction}}
-\section{\textbf{Strategies}}
-\section{\textbf{Code Examples}}
-\section{\textbf{Conclusion}}
-\section{\textbf{References}}
+	%Turn page numbering on again
+	\pagenumbering{arabic}
+	\newpage
+  
+
+%Abstract Section
+\section{Abstract}
+\par Graphic Processing Units (GPUs) today have a great deal of global memory a programmer can use for whatever reason deemed necessary. But what if the project and data at hand is too large even for the 2GB of the GTX 960, the 6GB of the GTX 980 TI, or even 12GB of the TITAN X card? The design an implementation of memory management systems or mechanisms to artificially limit the GPUs  global memory in an attempt to evaluate the effect of large data sets on the running time of a piece of kernel code.
+\par Dividing and loading the data into global memory as blocks is unequivocally the easiest approach but, how the data is loading is going to be the challenging part of this experiment. Since data transfer from a host to a device's global memory is extremely costly, the efficiency of the data transfer is paramount.
+\par{}To evaluate the kernel, the CUDA program will be run and the running time of the kernel will be plotted against data of different sizes.
+
+
+
+%Introduction section	
+\section{Introduction}
+%I expect you to write a report in the format of a publishable paper. In the report, you should clearly state the objective of your project, your design of the data structure or algorithm, and relevant test cases by which the grader can evaluate your code.%
+\par The objective of this project is to simulate the scenario where the data at hand is too large to all fit into global memory at once. This is a very large data set since some GPUs today come with up to 12GB of global memory on board. Loading the data is the trivial part of this project. The efficient loading of data is what this project is about. 
+ 
+ 
+ 
+%Strategies used
+\section{Strategies}
+We thought about starting with the code that we wrote for Project 2. Even with our best attempts the code was still 10x slower than what the Teaching Assistant(TA) had produced. Taking that into consideration, we started with the TA's code in order to improve on that already optimized code. This code of course did not take into consideration if the data set was too large to fit into global memory of the GPU itself. 
+
+
+
+%Partial code examples
+\section{Algorithms and Code Examples}
+
+%example for code
+\begin{lstlisting}
+\end{lstlisting}
+\lstinputlisting[language=C]{test_code.c}
+
+
+
+%Results
+\section{Results}
+This section highlights the results obtained from our experiments and the control data we used to compare our data to.
+
+\subsection{Control}
+For a baseline  to compare our experiments to we are using the data posted on CANVAS from the TA. Number of Atoms versus the Running time in seconds.
+
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+\hline
+Num Atoms & Run Time (s) & Num Atoms & Run Time (s) \\
+\hline\hline 
+512	& 0.00101494 & 1638912 & 91.99478912 \\
+\hline
+102912 & 0.34378347 & 1741312 & 104.07542420 \\
+\hline
+205312 & 1.36084175 & 1843712 & 117.17488860 \\
+\hline
+307712 & 3.05233979 & 1946112 & 130.36553960 \\
+\hline
+410112 & 5.48577261 & 2048512 & 144.33065800 \\
+\hline
+512512 & 8.57051182 & 2150912 & 159.09375000 \\
+\hline
+614912 & 12.34655285 & 2253312 & 174.61938480 \\
+\hline
+717312 & 16.97405243 & 2355712 & 191.60043330 \\
+\hline
+819712 & 22.75370407 & 2458112 & 207.86152650 \\
+\hline
+922112 & 29.15684891 & 2560512 & 226.56158450 \\
+\hline
+1024512 & 36.23521423 & 2662912 & 244.75129700 \\
+\hline
+1126912 & 43.85413361 & 2765312 & 263.50692750 \\
+\hline
+1229312 & 51.80871201 & 2867712 & 282.38305660 \\
+\hline
+1331712 & 60.74640274 & 2970112 & 303.45535280 \\
+\hline
+1434112 & 70.61425018 & 3072512 & 325.80584720 \\
+\hline
+1536512 & 80.98942566 & & \\
+\hline
+\end{tabular}
+
+\end{center}
+
+\subsection{Experimental}
+This section has the results we obtained in the project when we assume that the global memory is not big enough to hold all of the data that we have to to offer. We have to feed in the data a little at a time (say 200MB).
+
+%test case section
+\subsection{Test Cases}
+Thes
+
+
+%Conclusion
+\section{Conclusion}
+Go on about what we expected versus what we saw in testing. Does the loading of data the way we implemented it a success or failure? Go into some great detail why or why not.
+
+
+
+%Bibliography and style
+\bibliography{ref}
+\bibliographystyle{ieeetr}
+
+
+
+%End Document
 \end{document}
